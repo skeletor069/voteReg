@@ -1,0 +1,26 @@
+/* .box {border:1px solid black;} */
+
+
+.grow {
+  transition: all .2s ease-in-out;
+  display:flex;
+  align-items:center;
+}
+.grow:hover {
+  transform: scale(2.5);
+  z-index:999;
+}
+.grow2 {
+ /* transition: all .2s ease-in-out;
+  display:flex;
+  align-items:center;*/
+}
+/*.grow2:hover {
+  transform: scale(0);
+  z-index:999;*/
+}
+
+img {
+  margin:0 auto;
+  width:100%;
+}
