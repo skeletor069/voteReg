@@ -1,0 +1,1 @@
+create view results_category_1 as SELECT c.image_id,count(*) as votes from category_1 c,vote_cat_1 v,users u where u.verified=1 and u.id=v.user_id and (c.image_id=v.choice1 or c.image_id=v.choice2 or c.image_id=v.choice3) group by c.image_id order by c.image_id
