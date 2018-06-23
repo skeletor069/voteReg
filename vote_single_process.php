@@ -10,6 +10,10 @@
 			$ids[] = $parts[0];
 		}
 
+		$query = "DELETE FROM vote_cat_1 WHERE user_id=".$_SESSION['user_id'];
+		mysqli_query($db, $query);
+
+
 		$query = "INSERT INTO vote_cat_1(user_id, choice1, choice2, choice3) VALUES(".$_SESSION['user_id'].",'".$ids[0]."', '".$ids[1]."', '".$ids[2]."')";
 		mysqli_query($db, $query) or die(mysqli_error($db));
 		$to_go = "vote_gallery.php";

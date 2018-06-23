@@ -26,15 +26,40 @@
 
 		// register user if there are no errors in the form
 		if (count($errors) == 0) {
-			$password = md5($password_1);//encrypt the password before saving in the database
-			$query = "INSERT INTO users (username, email, password) 
-					  VALUES('$username', '$email', '$password')";
-			mysqli_query($db, $query);
 
-			$_SESSION['username'] = $username;
-			$_SESSION['user_id'] = mysqli_insert_id($db);
-			$_SESSION['success'] = "You are now logged in";
-			header('location: index.php');
+			$query = "select * from users where email='$email'";
+			$res = mysqli_query($db, $query);
+			if(mysqli_num_rows($res) == 1){
+				array_push($errors, "Email already taken.");
+			}else{
+
+				$password = md5($password_1);//encrypt the password before saving in the database
+				$query = "INSERT INTO users (username, email, password) 
+						  VALUES('$username', '$email', '$password')";
+				mysqli_query($db, $query);
+
+				$_SESSION['username'] = $username;
+				$_SESSION['user_id'] = mysqli_insert_id($db);
+				$_SESSION['success'] = "You are now logged in";
+
+				$msg = "Hello ".$username.".<br/>";
+				$msg.= "You have been registered in our server for voting. Please click the link below to verify your email. <br/>";
+				$msg.= '<a href="http://localhost/votingReg/verify.php?username='.$username.'&check='.md5($_SESSION['user_id']).'">';
+				$msg.= 'http://localhost/votingReg/verify.php?username='.$username.'&check='.md5($_SESSION['user_id']);
+				$msg.= '</a>';
+
+				$mail_subject = "Verify your email";
+				$mail_sender = "vote@gmail.com";
+				$success = mail( $email, $mail_subject, $msg, 'From: ' . $mail_sender );
+				// echo $msg;
+				// if (!$success) {
+	   //  			$errorMessage = error_get_last()['message'];
+	   //  			echo $errorMessage;
+				// }
+
+
+				header('location: index.php');
+			}
 		}
 
 	}
